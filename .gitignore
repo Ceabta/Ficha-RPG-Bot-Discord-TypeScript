@@ -1,0 +1,40 @@
+# =============================
+# Node.js
+# =============================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# =============================
+# TypeScript
+# =============================
+dist/
+build/
+out/
+*.tsbuildinfo
+
+# =============================
+# VSCode
+# =============================
+.vscode/
+
+# =============================
+# Ambiente
+# =============================
+.env
+.env.local
+.env.*.local
+
+# =============================
+# Sistema operacional
+# =============================
+Thumbs.db         # Windows
+desktop.ini       # Windows
+
+# =============================
+# Logs e arquivos temporários
+# =============================
+*.log
+*.tmp
+*.bak
