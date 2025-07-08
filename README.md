@@ -77,7 +77,8 @@ src/
 
 ## 📷 Exemplo de visualização no Discord
 
-![Visualização no Discord](./src/assets/exemplo-embed.png)
+![image](https://github.com/user-attachments/assets/967a63a4-6f02-4e87-9e3f-283d452f8247)
+
 
 ---
 
