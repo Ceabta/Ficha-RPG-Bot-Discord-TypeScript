@@ -38,3 +38,8 @@ desktop.ini       # Windows
 *.log
 *.tmp
 *.bak
+
+# =============================
+# Dados dinâmicos dos personagens
+# =============================
+src/data/personagens.json

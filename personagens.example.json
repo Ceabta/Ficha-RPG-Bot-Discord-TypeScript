@@ -1,0 +1,12 @@
+{
+  "123456789012345678": {
+    "Exemplo": {
+      "hp_total": 100,
+      "hp_atual": 100,
+      "mana": 50,
+      "sanidade": 100,
+      "armadura": 25,
+      "situacao": "Vivo"
+    }
+  }
+}
