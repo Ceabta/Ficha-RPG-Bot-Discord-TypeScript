@@ -1,0 +1,20 @@
+{
+  "333931575525900289": {
+    "Teste1": {
+      "hp_total": 100,
+      "hp_atual": 100,
+      "mana": 30,
+      "sanidade": 100,
+      "armadura": 50,
+      "situacao": "Vivo"
+    },
+    "Teste2": {
+      "hp_total": 1,
+      "hp_atual": 1,
+      "mana": 0,
+      "sanidade": 100,
+      "armadura": 1,
+      "situacao": "Vivo"
+    }
+  }
+}
