@@ -23,6 +23,8 @@ Um bot de Discord feito em TypeScript para gerenciar fichas de personagem de RPG
 - Discord bot registrado com intents corretas
 
 
+---
+
 1. Instale as dependências:
    ```bash
    npm install
