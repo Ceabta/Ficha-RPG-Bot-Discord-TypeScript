@@ -1,3 +1,8 @@
+/*
+* npx ts-node src/deploy-commands.ts -> Para registrar os comandos no Discord
+* npx ts-node src/index.ts -> Para iniciar o bot
+*/
+
 import { Client, GatewayIntentBits, Interaction } from 'discord.js';
 import * as dotenv from 'dotenv';
 import ping from './commands/ping';

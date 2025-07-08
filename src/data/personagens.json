@@ -15,6 +15,23 @@
       "sanidade": 100,
       "armadura": 1,
       "situacao": "Vivo"
+    },
+    "Teste3": {
+      "hp_total": 999,
+      "hp_atual": 999,
+      "mana": 0,
+      "sanidade": 100,
+      "armadura": 99,
+      "situacao": "Vivo"
+    },
+    "Teste4": {
+      "hp_total": 4,
+      "hp_atual": 4,
+      "mana": 88,
+      "sanidade": 100,
+      "armadura": 4,
+      "situacao": "Vivo",
+      "classe": "Clérigo"
     }
   }
 }

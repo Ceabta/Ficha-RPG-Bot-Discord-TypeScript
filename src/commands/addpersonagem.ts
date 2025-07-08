@@ -1,4 +1,13 @@
-import { SlashCommandBuilder } from 'discord.js';
+import {
+  SlashCommandBuilder,
+  EmbedBuilder,
+  ActionRowBuilder,
+  StringSelectMenuBuilder,
+  ComponentType,
+  ChatInputCommandInteraction,
+  StringSelectMenuInteraction
+} from 'discord.js';
+import { emojis } from '../emojis';
 import fs from 'fs';
 
 export default {
@@ -16,43 +25,89 @@ export default {
     .addIntegerOption(opt =>
       opt.setName('mana').setDescription('Mana').setRequired(false))
     .addIntegerOption(opt =>
-        opt.setName('sanidade').setDescription('Sanidade').setRequired(false)),
-  
-  async execute(interaction: any) {
-    const nome = interaction.options.getString('nome');
-    const hp_total = interaction.options.getInteger('hp_total');
-    const hp_atual = interaction.options.getInteger('hp_atual');
-    const mana = interaction.options.getInteger('mana') || 0; // 0 como padrão se não for fornecido
-    const sanidade = interaction.options.getInteger('sanidade') || 100; // 100 como padrão se não for fornecido
-    const armadura = interaction.options.getInteger('armadura');
+      opt.setName('sanidade').setDescription('Sanidade').setRequired(false)),
+
+  async execute(interaction: ChatInputCommandInteraction) {
+    const nome = interaction.options.getString('nome')!;
+    const hp_total = interaction.options.getInteger('hp_total')!;
+    const hp_atual = interaction.options.getInteger('hp_atual')!;
+    const armadura = interaction.options.getInteger('armadura')!;
+    const mana = interaction.options.getInteger('mana') ?? 0;
+    const sanidade = interaction.options.getInteger('sanidade') ?? 100;
     const situacao = 'Vivo';
     const userId = interaction.user.id;
-
-    // Carregar arquivo existente (ou criar novo)
     const path = './src/data/personagens.json';
-    let data = {};
+
+    let data: any = {};
     if (fs.existsSync(path)) {
       const raw = fs.readFileSync(path, 'utf-8');
       data = JSON.parse(raw);
     }
 
-    // Salvar personagem
-    if (!(data as any)[userId]) {
-      (data as any)[userId] = {};
-    } else {
-      // Verificar se o nome já existe (case sensitive)
-      const nomesExistentes = Object.keys((data as any)[userId] || {});
-      const nomeJaExiste = nomesExistentes.some(n => n.toLowerCase() === nome.toLowerCase());
-      if (nomeJaExiste) {
-        return interaction.reply(`❌ Já existe um personagem chamado **${nome}** (mesmo nome, ignorando maiúsculas/minúsculas).`);
-      }
+    if (!data[userId]) data[userId] = {};
+    const nomesExistentes = Object.keys(data[userId]);
+    const nomeJaExiste = nomesExistentes.some(n => n.toLowerCase() === nome.toLowerCase());
+
+    if (nomeJaExiste) {
+      await interaction.reply(`❌ Já existe um personagem chamado **${nome}** (ignorando maiúsculas/minúsculas).`);
+      return;
     }
 
-    (data as any)[userId][nome] = { hp_total, hp_atual, mana, sanidade, armadura, situacao };
+    const selectMenu = new StringSelectMenuBuilder()
+      .setCustomId('selecao_classe')
+      .setPlaceholder('Escolha a classe do personagem')
+      .addOptions(
+        { label: 'Guerreiro', value: 'Guerreiro' },
+        { label: 'Mago', value: 'Mago' },
+        { label: 'Clérigo', value: 'Clérigo' },
+        { label: 'Ladino', value: 'Ladino' },
+        { label: 'Bárbaro', value: 'Bárbaro' },
+        { label: 'Paladino', value: 'Paladino' },
+        { label: 'Bardo', value: 'Bardo' }
+      );
 
+    const row = new ActionRowBuilder<StringSelectMenuBuilder>().addComponents(selectMenu);
 
-    fs.writeFileSync(path, JSON.stringify(data, null, 2));
+    await interaction.reply({
+      content: `${emojis.mago} Escolha a **classe** para o personagem **${nome}**:`,
+      components: [row],
+      ephemeral: true
+    });
 
-    await interaction.reply(`✅ Personagem **${nome}** adicionado com sucesso!`);
+    const collector = interaction.channel!.createMessageComponentCollector({
+      componentType: ComponentType.StringSelect,
+      time: 15000,
+      max: 1
+    });
+
+    collector.on('collect', async (selectInteraction: StringSelectMenuInteraction) => {
+      if (selectInteraction.user.id !== interaction.user.id) {
+        await selectInteraction.reply({ content: '❌ Esse menu não é para você.', ephemeral: true });
+        return;
+      }
+
+      const classe = selectInteraction.values[0];
+      data[userId][nome] = { hp_total, hp_atual, mana, sanidade, armadura, situacao, classe };
+      fs.writeFileSync(path, JSON.stringify(data, null, 2));
+
+      const embed = new EmbedBuilder()
+        .setTitle(`${emojis.ficha} ${nome} criado!`)
+        .setColor(0x3498db)
+        .setDescription(
+          `${emojis.mago} Classe: **${classe}**
+` +
+          `${emojis.hp} HP: **${hp_atual} / ${hp_total}**
+` +
+          `${emojis.mana} Mana: **${mana}**
+` +
+          `${emojis.sanidade} Sanidade: **${sanidade}**
+` +
+          `${emojis.armadura} Armadura: **${armadura}**
+` +
+          `${emojis.situacao} Situação: **${situacao}**`
+        );
+
+      await selectInteraction.update({ content: '', embeds: [embed], components: [] });
+    });
   }
-}
+};

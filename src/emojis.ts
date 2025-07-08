@@ -5,4 +5,5 @@ export const emojis = {
     armadura: ':shield:',
     situacao: ':information_source:',
     ficha: ':scroll:',
+    mago: ':mage:',
 };

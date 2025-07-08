@@ -54,16 +54,19 @@ export default {
 
     for (let i = 0; i < slice.length; i++) {
       const nome = slice[i];
-      const status = personagens[nome];
+      const personagem = personagens[nome];
 
       embed.addFields({
-        name: `${emojis.ficha} ${nome}`,
+        name: personagens[nome].situacao === 'Morto' 
+          ? `${emojis.ficha} ☠️ ~~${nome}~~ ☠️`
+          : `${emojis.ficha} ${nome}`,
         value:
-          `${emojis.hp} HP: **${status.hp_atual}/${status.hp_total}**\n` +
-          `${emojis.mana} Mana: **${status.mana}**\n` +
-          `${emojis.sanidade} Sanidade: **${status.sanidade}**\n` +
-          `${emojis.armadura} Armadura: **${status.armadura}**\n` +
-          `${emojis.situacao} Situação: **${status.situacao}**`,
+          `${emojis.mago} Classe: **${personagem.classe}**\n` +
+          `${emojis.hp} HP: **${personagem.hp_atual}/${personagem.hp_total}**\n` +
+          `${emojis.mana} Mana: **${personagem.mana}**\n` +
+          `${emojis.sanidade} Sanidade: **${personagem.sanidade}**\n` +
+          `${emojis.armadura} Armadura: **${personagem.armadura}**\n` +
+          `${emojis.situacao} Situação: **${personagem.situacao}**`,
         inline: false // vertical
       });
 
