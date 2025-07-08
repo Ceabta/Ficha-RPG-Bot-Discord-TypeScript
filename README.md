@@ -22,6 +22,24 @@ Um bot de Discord feito em TypeScript para gerenciar fichas de personagem de RPG
 - TypeScript
 - Discord bot registrado com intents corretas
 
+1. Instale as dependências:
+   ```bash
+   npm install
+   ```
+
+2. Copie o arquivo `.env.example` e renomeie para `.env`, preenchendo com suas credenciais.
+
+3. Copie o arquivo `src/data/personagens.example.json` e renomeie para `personagens.json`:
+   ```bash
+   cp src/data/personagens.example.json src/data/personagens.json
+   ```
+   > Esse arquivo é onde os dados dos personagens são salvos. Ele **não será enviado ao GitHub**.
+
+4. Execute o bot:
+   ```bash
+   npx ts-node src/index.ts
+   ```
+
 ---
 
 ## 🔧 Comandos disponíveis
