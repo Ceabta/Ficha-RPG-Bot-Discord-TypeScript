@@ -46,7 +46,7 @@ export default {
     const slice = nomes.slice(inicio, fim);
 
     const embed = new EmbedBuilder()
-      .setTitle(' Seus Personagens ')
+      .setTitle(` Personagens do ${interaction.user.displayName}`)
       .setColor(0x2ecc71)
       .setFooter({
         text: `Página ${pagina + 1} de ${totalPaginas}`
@@ -110,9 +110,9 @@ export default {
     });
 
     collector.on('collect', async i => {
-      if (i.user.id !== userId) {
-        return i.reply({ content: '❌ Esses botões não são para você.', ephemeral: true });
-      }
+      // if (i.user.id !== userId) {
+      //   return i.reply({ content: '❌ Esses botões não são para você.', ephemeral: true });
+      // }
 
       if (i.customId === 'anterior' && paginaAtual > 0) {
         paginaAtual--;
